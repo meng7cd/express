@@ -1,14 +1,12 @@
 # 初识 Express
 
-## 是什么
+## Express 是什么
 
 [Express 英文网](https://expressjs.com/)
 
 [Express 中文网](https://www.expressjs.com.cn/)
 
-官网概念：Express 是基于 Node.js 平台，快速、开放、极简的 Web 开发框架。
-
-通俗理解: Express 的作用和 Node,js 内置的 http 模块类似，是专门用来创建 Web 服务器的。本质上是一个第三方 npm 包，提供快速创建 Web 服务器的便捷方法。
+Express 是一个基于 Node.js 的快速、简洁的 Web 开发框架，提供了一系列强大的功能来帮助开发者构建 Web 应用程序。它提供了一种简单的方式来处理 HTTP 请求和响应，并支持中间件来扩展其功能。
 
 框架特性：
 
@@ -18,7 +16,7 @@
 4. 提供了中间件机制有效控制 HTTP 请求;
 5. 拥有大量第三方中间件对功能的扩展;
 
-## 做什么
+## Express 可以做什么
 
 使用 Express 可以快速地搭建一个完整功能的网站，方便、快速的创建 Web 网站的服务器或 API 接口的服务器。
 
@@ -335,3 +333,103 @@ app.listen(3000, () => {
 ![Alt text](image-13.png)
 
 ![Alt text](image-14.png)
+
+## 八、静态文件服务
+
+在 Web 开发中，静态文件服务是非常重要的一个环节，因为许多前端资源，如 CSS、JavaScript 文件、图片等都是静态的。Express.js 框架提供了一个简单的方法来为应用程序提供静态文件服务。
+
+根目录创建 public 文件夹，并创建一个 index.html 文件
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>/static/index.html</div>
+    <div>/public/index.html</div>
+  </body>
+</html>
+```
+
+./app.js 文件使用 express.static 中间件指定应用程序的静态文件目录。
+
+```js
+// 导入 express
+const express = require("express");
+
+// 导入 userRouter
+const userRouter = require("./router/user.js");
+
+// 创建 web 服务器
+const app = express();
+
+// 指定静态资源目录
+app.use("/static", express.static("public"));
+
+// 注册user路由
+app.use("/user", userRouter);
+
+app.listen(3000, () => {
+  console.log("Express Server running at http://127.0.0.1:3000");
+});
+```
+
+路由访问/static，即可访问 public 目录下的静态资源
+
+![Alt text](image-15.png)
+
+指定 web 服务资源目录
+
+根目录创建 www 文件夹，并创建一个 index.html 文件
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>Express Web Serve !</div>
+  </body>
+</html>
+```
+
+./app.js 文件新增指定 web 服务目录
+
+```js
+// 导入 express
+const express = require("express");
+
+// 导入 userRouter
+const userRouter = require("./router/user.js");
+
+// 创建 web 服务器
+const app = express();
+
+// 指定web服务资源目录
+app.use("/", express.static("www"));
+
+// 指定静态资源目录
+app.use("/static", express.static("public"));
+
+// 注册user路由
+app.use("/user", userRouter);
+
+app.listen(3000, () => {
+  console.log("Express Server running at http://127.0.0.1:3000");
+});
+```
+
+路由访问根目录/，即可访问 www 目录下的 web 资源
+
+![Alt text](image-16.png)
+
+## 九、参数介绍及解析
+
+## 十、日志记录
